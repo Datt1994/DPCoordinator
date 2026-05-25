@@ -30,8 +30,10 @@ import Combine
     
     // Presentation
     func present(sheet screen: ScreenType)
+    func present(sheet flow: FlowType)
     @discardableResult func dismissSheetScreen() -> Bool
     func present(full screen: ScreenType)
+    func present(full flow: FlowType)
     @discardableResult func dismissFullScreen() -> Bool
     @discardableResult func dismiss() -> Bool
     func showAlert(_ alert: AlertConfig)
