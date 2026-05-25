@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct HomeView: View {
-    @Environment(\.mainCoordinator) private var coordinator
+    @Environment(\.homeCoordinator) private var coordinator
+    @Environment(\.tabCoordinator) private var tabCoordinator
     
     var body: some View {
         VStack(spacing: 24) {
             Button("Go to Setting Tab") {
-                coordinator?.selectTab(.setting)
+                tabCoordinator?.selectTab(.setting)
             }
             Button("Go to Account Tab") {
-                coordinator?.selectTab(.account)
+                tabCoordinator?.selectTab(.account)
             }
             Button("Show Loader") {
 //                coordinator?.showLoader(LoadingConfig(text: "text",description: "description"))
@@ -41,10 +42,9 @@ struct HomeView: View {
             }
             
             Button("Show system alert") {
-                coordinator?.showPopUpAlert(
+                coordinator?.showAlert(
                     .init(
                         title: "title",
-                        subtitle: "subtitle",
                         message: "message",
                         primaryButton: .init(label: "primary", action: {
                             

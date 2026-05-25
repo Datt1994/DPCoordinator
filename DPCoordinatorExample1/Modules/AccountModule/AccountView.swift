@@ -8,10 +8,14 @@
 import SwiftUI
 
 struct AccountView: View {
-    @Environment(\.mainCoordinator) private var coordinator
+    @Environment(\.accountCoordinator) private var coordinator
+    @Environment(\.tabCoordinator) private var tabCoordinator
     
     var body: some View {
         VStack(spacing: 24) {
+            Button("Set up account push") {
+                coordinator?.push( .init(account: .stepOne))
+            }
             Button("Set up account present sheet") {
                 coordinator?.present(sheet: .init(flow: .accountSetUp))
             }
@@ -19,10 +23,10 @@ struct AccountView: View {
                 coordinator?.present(full: .init(flow: .accountSetUp))
             }
             Button("Go to Setting Tab") {
-                coordinator?.selectTab(.setting)
+                tabCoordinator?.selectTab(.setting)
             }
             Button("Go to Home Tab") {
-                coordinator?.selectTab(.home)
+                tabCoordinator?.selectTab(.home)
             }
         }
     }

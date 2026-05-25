@@ -13,18 +13,25 @@ struct AppCoordiantorNavigationStackModifier<C: AppCoordinator>: ViewModifier {
     @Environment(\.isInNavigationStack) private var isInNavigationStack
     
     func body(content: Content) -> some View {
-        if isInNavigationStack {
+//        if isInNavigationStack {
+//            content
+//                .onAppear {
+//                    coordinator.parentCoordinator = parentCoordinator
+//                }
+//                .showLoadingIndicator(using: _coordinator)
+//                .showPopUpAlert(using: _coordinator)
+//                .showAlert(using: _coordinator)
+//                .environment(environmentKeyPath, coordinator)
+////                .onAppear {
+////                    assertionFailure("You can not use nested NavigationStack. Use Sheet or FullScreenCover instead to created new NavigationStack. use: 'coordinator?.present(full:' or 'coordinator?.present(sheet:'")
+////                }
+//        } else {
             content
-                .onAppear {
-                    assertionFailure("You can not use nested NavigationStack. Use Sheet or FullScreenCover instead to created new NavigationStack. use: 'coordinator?.present(full:' or 'coordinator?.present(sheet:'")
-                }
-        } else {
-            content
-                .addCoordiantorNavigationStack(using: coordinator, environmentKeyPath: environmentKeyPath, parentCoordinator: parentCoordinator)
-                .showLoadingIndicator(using: _coordinator)
-                .showPopUpAlert(using: _coordinator)
-                .environment(environmentKeyPath, coordinator)
-        }
+            .addCoordiantorNavigationStack(using: coordinator, environmentKeyPath: environmentKeyPath, parentCoordinator: parentCoordinator)
+            .showLoadingIndicator(using: _coordinator)
+            .showPopUpAlert(using: _coordinator)
+//            .environment(environmentKeyPath, coordinator)
+//        }
       
     }
     

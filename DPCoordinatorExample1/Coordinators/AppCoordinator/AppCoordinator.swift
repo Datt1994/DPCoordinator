@@ -30,8 +30,9 @@ extension AppCoordinator {
 
 // MARK: - App Base Coordinator
 
-@MainActor class AppBaseCoordinator<T: Screen>: BaseCoordinator<T>, AppCoordinator {
+@MainActor class AppBaseCoordinator<T: Screen, F: Flow>: BaseCoordinator<T, F>, AppCoordinator {
     typealias ScreenType = T
+    typealias FlowType = F
     
     @Published var presentedLoader: LoadingConfig = LoadingConfig()
     @Published var presentedPopUpAlert: PopUpAlert = PopUpAlert()
@@ -53,58 +54,3 @@ extension AppCoordinator {
     }
     
 }
-
-
-//
-//protocol AppCoordinator {
-////    var presentedAlert: AlertConfig { get set }
-//    var isLoading: Bool { get }
-////    var presentedOldPopUpAlert: PopUpAlert { get set }
-//    
-//    // Loading
-//    func showLoading()
-//    func hideLoading()
-//    
-////    // Alert Presentation
-////    func showAlert(_ alert: AlertConfig)
-////    func dismissAlert()
-////    
-////    // PopUp Presentation
-////    func showOldPopUpAlert(_ alert: PopUpAlert)
-////    func dismissOldPopUpAlert()
-//}
-
-//class AppCoordinator: AppBaseCoordinator<AppScreen> {
-//    @Published var presentedAlert: AlertConfig = AlertConfig()
-//    @Published var presentedOldPopUpAlert: PopUpAlert = PopUpAlert()
-//    @Published private(set) var isLoading: Bool = false
-//    
-//    
-//    // Loading
-//    func showLoading() {
-//        isLoading = true
-//    }
-//    
-//    func hideLoading() {
-//        isLoading = false
-//    }
-    
-//    // Alert Presentation
-//    func showAlert(_ alert: AlertConfig) {
-//        presentedAlert = alert
-//        presentedAlert.isActive = true
-//    }
-//    
-//    func dismissAlert() {
-//        presentedAlert.isActive = false
-//    }
-//    
-//    // PopUp Presentation
-//    func showOldPopUpAlert(_ alert: PopUpAlert) {
-//        presentedOldPopUpAlert.showPopUpAlert(alert)
-//    }
-//    
-//    func dismissOldPopUpAlert() {
-//        presentedOldPopUpAlert.dismissPopUpAlert()
-//    }
-//}

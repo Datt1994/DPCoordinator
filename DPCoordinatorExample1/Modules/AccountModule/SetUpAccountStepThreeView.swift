@@ -8,21 +8,26 @@
 import SwiftUI
 
 struct SetUpAccountStepThreeView: View {
-    @Environment(\.setUpAccountCoordinator) private var coordinator
+    @Environment(\.setUpAccountCoordinator) private var setUpAccountCoordinator
+    @Environment(\.accountCoordinator) private var accountCoordinator
+    
+    func coordinator() -> (AppBaseCoordinator<AppScreen, AppFlow>)? {
+        return setUpAccountCoordinator ?? accountCoordinator
+    }
     
     var body: some View {
         VStack(spacing: 24) {
             Button("Back") {
-                coordinator?.pop()
+                coordinator()?.pop()
             }
             Button("Root") {
-                coordinator?.popToRoot()
+                coordinator()?.popToRoot()
             }
             Button("pop two") {
-                coordinator?.pop(2)
+                coordinator()?.pop(2)
             }
             Button("Dissmiss") {
-                coordinator?.dismiss()
+                coordinator()?.dismiss()
             }
         }
         .navigationTitle("Set Up Account Step 3")

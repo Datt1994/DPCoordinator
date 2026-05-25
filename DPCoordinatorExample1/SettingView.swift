@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct SettingView: View {
-    @Environment(\.mainCoordinator) private var coordinator
+    @Environment(\.settingCoordinator) private var coordinator
+    @Environment(\.tabCoordinator) private var tabCoordinator
     
     var body: some View {
         VStack(spacing: 24) {
             Button("Go to Home Tab") {
-                coordinator?.selectTab(.home)
+                tabCoordinator?.selectTab(.home)
             }
             Button("Go to Account Tab") {
-                coordinator?.selectTab(.account)
+                tabCoordinator?.selectTab(.account)
             }
         }
     }

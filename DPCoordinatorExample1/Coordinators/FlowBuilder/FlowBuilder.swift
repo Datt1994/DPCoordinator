@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-enum AppFlows {
+extension AppFlows {
     enum FlowContainers {
         case tabbar
         case accountSetUp
@@ -23,7 +23,6 @@ struct FlowBuilder {
             // Containers to start flow
         case .tabbar:
             TabbarContainer()
-            //                QFWiFiPodsFlowContainer(viewModel: viewModel)
             
         case .accountSetUp:
             SetUpAccountFlowContainer()

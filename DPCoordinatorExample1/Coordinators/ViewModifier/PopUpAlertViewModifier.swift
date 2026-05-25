@@ -47,8 +47,6 @@ struct PopUpAlertModifier: ViewModifier {
                         .ignoresSafeArea()
                     VisualEffectView().blur(radius: animationAmount * 3, opaque: true)
                         .ignoresSafeArea()
-//                    Color.QFColors.Secondary.whiteOverlays.opacity(animationAmount * 0.3)
-//                        .edgesIgnoringSafeArea(.all)
                 }
             }
 //            .blur(radius: animationAmount * 3)

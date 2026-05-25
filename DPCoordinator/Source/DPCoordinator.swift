@@ -12,11 +12,15 @@ import Combine
 
 @MainActor protocol DPCoordinator: ObservableObject {
     associatedtype ScreenType: Screen
+    associatedtype FlowType: Flow
 
     var navigationPath: [ScreenType.ID] { get set }
     var dicPathScreen: [ScreenType.ID: ScreenType] { get }
     var presentedSheet: ScreenType? { get set }
     var presentedFullScreenCover: ScreenType? { get set }
+    var presentedFlowSheet: FlowType? { get set }
+    var presentedFlowFullScreenCover: FlowType? { get set }
+    var isCoverVisible: Bool { get set }
     var presentedAlert: AlertConfig { get set }
     var parentCoordinator: (any DPCoordinator)? { get set }
     
@@ -42,14 +46,18 @@ extension DPCoordinator {
 
 // MARK: - Base Coordinator
 
-@MainActor class BaseCoordinator<T: Screen>: DPCoordinator {
+@MainActor class BaseCoordinator<T: Screen, F: Flow>: DPCoordinator {
     typealias ScreenType = T
+    typealias FlowType = F
 
     private(set) var dicPathScreen: [ScreenType.ID: ScreenType] = [:]
     @Published var navigationPath: [ScreenType.ID] = []
     @Published var presentedSheet: ScreenType?
     @Published var presentedFullScreenCover: ScreenType?
+    @Published var presentedFlowSheet: FlowType?
+    @Published var presentedFlowFullScreenCover: FlowType?
     @Published var presentedAlert: AlertConfig = AlertConfig()
+    @Published var isCoverVisible: Bool = false
 
     private var cancellables: Set<AnyCancellable> = .init()
     weak var parentCoordinator: (any DPCoordinator)?
@@ -74,6 +82,9 @@ extension DPCoordinator {
         dicPathScreen[screen.id] = screen
         navigationPath.append(screen.id)
     }
+    
+    // You can not use nested NavigationStack. Use Sheet or FullScreenCover instead to created new NavigationStack or Flow. use: 'coordinator?.present(full:' or 'coordinator?.present(sheet:'
+    // func push(flow: FlowType) { }
 
     @discardableResult
     func pop(_ screenCount: Int = 1) -> Bool {
@@ -93,11 +104,19 @@ extension DPCoordinator {
     func present(sheet screen: ScreenType) {
         presentedSheet = screen
     }
+    
+    func present(sheet flow: FlowType) {
+        presentedFlowSheet = flow
+    }
 
     @discardableResult
     func dismissSheetScreen() -> Bool {
         if presentedSheet == nil {
-            return parentCoordinator?.dismissSheetScreen() ?? false
+            if presentedFlowSheet == nil {
+                return parentCoordinator?.dismissSheetScreen() ?? false
+            }
+            presentedFlowSheet = nil
+            return true
         }
         presentedSheet = nil
         return true
@@ -106,11 +125,19 @@ extension DPCoordinator {
     func present(full screen: ScreenType) {
         presentedFullScreenCover = screen
     }
+    
+    func present(full flow: FlowType) {
+        presentedFlowFullScreenCover = flow
+    }
 
     @discardableResult
     func dismissFullScreen() -> Bool {
         if presentedFullScreenCover == nil {
-            return parentCoordinator?.dismissSheetScreen() ?? false
+            if presentedFlowFullScreenCover == nil {
+                return parentCoordinator?.dismissFullScreen() ?? false
+            }
+            presentedFlowFullScreenCover = nil
+            return true
         }
         presentedFullScreenCover = nil
         return true
@@ -119,7 +146,12 @@ extension DPCoordinator {
     @discardableResult
     func dismiss() -> Bool {
         if presentedSheet == nil && presentedFullScreenCover == nil {
-            return parentCoordinator?.dismiss() ?? false
+            if presentedFlowSheet == nil && presentedFlowFullScreenCover == nil {
+                return parentCoordinator?.dismiss() ?? false
+            }
+            presentedFlowSheet = nil
+            presentedFlowFullScreenCover = nil
+            return true
         }
         presentedSheet = nil
         presentedFullScreenCover = nil

@@ -25,24 +25,37 @@ struct CoordiantorNavigationStackModifier<C: DPCoordinator>: ViewModifier {
     @Environment(\.isInNavigationStack) private var isInNavigationStack
     
     func body(content: Content) -> some View {
-        if isInNavigationStack {
-            content
-                .onAppear {
-                    assertionFailure("You can not use nested NavigationStack. Use Sheet or FullScreenCover instead to created new NavigationStack. use: 'coordinator?.present(full:' or 'coordinator?.present(sheet:'")
-                }
-        } else {
+//        if isInNavigationStack {
+////            content
+////                .onAppear {
+////                    assertionFailure("You can not use nested NavigationStack. Use Sheet or FullScreenCover instead to created new NavigationStack or Flow. use: 'coordinator?.present(full:' or 'coordinator?.present(sheet:'")
+////                }
+//            
+//            content
+//                .task {
+////                    coordinator.parentCoordinator = parentCoordinator
+//                    if coordinator.navigationPath.count == 0 {
+//                        assertionFailure("You can not use nested NavigationStack. Use Sheet or FullScreenCover instead to created new NavigationStack or Flow. use: 'coordinator?.present(full:' or 'coordinator?.present(sheet:'")
+//                    }
+////                    coordinator.parentCoordinator.present(full: content)
+//                }
+//                .environment(environmentKeyPath, coordinator)
+//        } else {
             NavigationStack(path: $coordinator.navigationPath) {
                 content
-                    .onAppear {
+                    .task {
                         coordinator.parentCoordinator = parentCoordinator
                     }
+                    .presentFlowSheet(using: _coordinator)
+                    .presentFlowFullScreenCover(using: _coordinator)
                     .navigationDestination(using: _coordinator)
+                    .presentSheet(using: _coordinator)
+                    .presentFullScreenCover(using: _coordinator)
+                    .showAlert(using: _coordinator)
             }
             .environment(\.isInNavigationStack, true)
-            .presentSheet(using: _coordinator)
-            .presentFullScreenCover(using: _coordinator)
             .environment(environmentKeyPath, coordinator)
-        }
+//        }
       
     }
     

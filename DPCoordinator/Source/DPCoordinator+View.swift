@@ -28,11 +28,25 @@ extension View {
             screen.build()
         }
     }
+    
+    func presentFlowSheet<F: Flow, C: DPCoordinator>(using coordinator: ObservedObject<C>) -> some View where C.FlowType == F, F: Identifiable {
+        sheet(item: coordinator.projectedValue.presentedFlowSheet,
+              onDismiss: coordinator.wrappedValue.presentedFlowSheet?.onDissmiss) { (flow: F) in
+            flow.build()
+        }
+    }
 
     func presentFullScreenCover<S: Screen, C: DPCoordinator>(using coordinator: ObservedObject<C>) -> some View where C.ScreenType == S, S: Identifiable {
         fullScreenCover(item: coordinator.projectedValue.presentedFullScreenCover,
                         onDismiss: coordinator.wrappedValue.presentedFullScreenCover?.onDissmiss) { (screen: S) in
             screen.build()
+        }
+    }
+    
+    func presentFlowFullScreenCover<F: Flow, C: DPCoordinator>(using coordinator: ObservedObject<C>) -> some View where C.FlowType == F, F: Identifiable {
+        fullScreenCover(item: coordinator.projectedValue.presentedFlowFullScreenCover,
+                        onDismiss: coordinator.wrappedValue.presentedFlowFullScreenCover?.onDissmiss) { (flow: F) in
+            flow.build()
         }
     }
 
@@ -58,4 +72,37 @@ extension View {
 //    func showOldPopUpAlert<S: Screen, C: DPCoordinator>(using coordinator: ObservedObject<C>) -> some View where C.ScreenType == S, S: Identifiable {
 //        modifier(PopUpAlertModifier(popUpAlert: coordinator.projectedValue.presentedOldPopUpAlert))
 //    }
+}
+
+
+struct SwipedView: View {
+    @Binding var isPresented: Bool
+    @Binding var isCoverVisible: Bool
+
+    var body: some View {
+        ZStack {
+            Color.blue.ignoresSafeArea()
+            
+            VStack {
+                Text("Swiped In Screen")
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                
+                Button("Dismiss") {
+                    // Animate the dismissal moving to the right
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                        isCoverVisible = false
+                    }
+                    
+                    // Delay hiding the cover so the animation plays
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                        isPresented = false
+                    }
+                }
+                .padding()
+                .background(.white)
+                .cornerRadius(10)
+            }
+        }
+    }
 }

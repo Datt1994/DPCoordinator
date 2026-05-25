@@ -33,32 +33,44 @@ enum AppTab: String {
 }
 
 struct TabbarContainer: View {
-    @StateObject private var coordinator = MainCoordinator()
+    @StateObject private var tabCoordinator = TabCoordinator()
+    @StateObject private var homeCoordinator = HomeCoordinator()
+    @StateObject private var acccountCoordinator = AccountCoordinator()
+    @StateObject private var settingCoordinator = SettingCoordinator()
     var body: some View {
-        TabView(selection: $coordinator.tabSelection) {
-            // Tab 1: Home
-            MainScreenBuilder.build(.home)
-                .tabItem {
-                    AppTab.home.tabItem
-                }
-                .tag(AppTab.home)
+        Group {
             
-            // Tab 2: Account
-            MainScreenBuilder.build(.account)
-                .tabItem {
-                    AppTab.account.tabItem
-                }
-                .tag(AppTab.account)
-            
-            // Tab 3: Settings
-            MainScreenBuilder.build(.setting)
-                .tabItem {
-                    AppTab.setting.tabItem
-                }
-                .tag(AppTab.setting)
+            TabView(selection: $tabCoordinator.tabSelection) {
+                // Tab 1: Home
+                MainScreenBuilder.build(.home)
+                    .navigationTitle(tabCoordinator.tabSelection.title)
+                    .addAppCoordiantorNavigationStack(using: homeCoordinator, environmentKeyPath: \.homeCoordinator)
+                    .tabItem {
+                        AppTab.home.tabItem
+                    }
+                    .tag(AppTab.home)
+                
+                // Tab 2: Account
+                MainScreenBuilder.build(.account)
+                    .navigationTitle(tabCoordinator.tabSelection.title)
+                    .addAppCoordiantorNavigationStack(using: acccountCoordinator, environmentKeyPath: \.accountCoordinator)
+                    .tabItem {
+                        AppTab.account.tabItem
+                    }
+                    .tag(AppTab.account)
+                
+                // Tab 3: Settings
+                MainScreenBuilder.build(.setting)
+                    .navigationTitle(tabCoordinator.tabSelection.title)
+                    .addAppCoordiantorNavigationStack(using: settingCoordinator, environmentKeyPath: \.settingCoordinator)
+                    .tabItem {
+                        AppTab.setting.tabItem
+                    }
+                    .tag(AppTab.setting)
+            }
+            .environment(\.tabCoordinator, tabCoordinator)
+            //        .addAppCoordiantorNavigationStack(using: coordinator, environmentKeyPath: \.mainCoordinator)
         }
-        .navigationTitle(coordinator.tabSelection.title)
-        .addAppCoordiantorNavigationStack(using: coordinator, environmentKeyPath: \.mainCoordinator)
     }
 }
 

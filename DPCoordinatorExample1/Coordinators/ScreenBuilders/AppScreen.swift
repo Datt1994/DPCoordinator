@@ -12,15 +12,9 @@ enum AppScreens { }
 
 struct AppScreen: Screen {
     let id: UUID = UUID()
-    var flowContainer: AppFlows.FlowContainers?
     var mainScreen: AppScreens.MainScreens?
     var accountScreen: AppScreens.AccountScreens?
     var onDissmiss: (() -> Void)?
-
-    init(flow: AppFlows.FlowContainers, onDissmiss: (() -> Void)? = nil) {
-        self.flowContainer = flow
-        self.onDissmiss = onDissmiss
-    }
 
     init(main: AppScreens.MainScreens, onDissmiss: (() -> Void)? = nil) {
         self.mainScreen = main
@@ -35,9 +29,6 @@ struct AppScreen: Screen {
 
     @ViewBuilder
     func build() -> some View {
-        if let flowContainer = flowContainer {
-            FlowBuilder.build(flowContainer)
-        }
         if let mainScreen = mainScreen {
             MainScreenBuilder.build(mainScreen)
         }
@@ -47,3 +38,4 @@ struct AppScreen: Screen {
     }
 
 }
+
