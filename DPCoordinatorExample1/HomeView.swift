@@ -22,8 +22,10 @@ struct HomeView: View {
             Button("Show Loader") {
 //                coordinator?.showLoader(LoadingConfig(text: "text",description: "description"))
                 coordinator?.showLoader()
+                tabCoordinator?.setDisable(true)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                     coordinator?.hideLoader()
+                    tabCoordinator?.setDisable(false)
                 }
             }
             Button("Show popup alert") {

@@ -19,6 +19,7 @@ extension EnvironmentValues {
 
 @MainActor class TabCoordinator: ObservableObject {
     @Published var tabSelection: AppTab = .home
+    @Published var isDisable: Bool = false
     
     func logout() {
 //        loginCoordinator.start()
@@ -26,6 +27,10 @@ extension EnvironmentValues {
     
     func selectTab(_ tab: AppTab) {
         tabSelection = tab
+    }
+    
+    func setDisable(_ isDisable: Bool) {
+        self.isDisable = isDisable
     }
 
 }

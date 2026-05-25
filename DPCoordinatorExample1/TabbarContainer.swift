@@ -69,6 +69,7 @@ struct TabbarContainer: View {
                     .tag(AppTab.setting)
             }
             .environment(\.tabCoordinator, tabCoordinator)
+            .disabled(tabCoordinator.isDisable)
             //        .addAppCoordiantorNavigationStack(using: coordinator, environmentKeyPath: \.mainCoordinator)
         }
     }
