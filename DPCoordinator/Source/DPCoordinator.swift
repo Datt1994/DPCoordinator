@@ -20,7 +20,6 @@ import Combine
     var presentedFullScreenCover: ScreenType? { get set }
     var presentedFlowSheet: FlowType? { get set }
     var presentedFlowFullScreenCover: FlowType? { get set }
-    var isCoverVisible: Bool { get set }
     var presentedAlert: AlertConfig { get set }
     var parentCoordinator: (any DPCoordinator)? { get set }
     
@@ -57,7 +56,6 @@ extension DPCoordinator {
     @Published var presentedFlowSheet: FlowType?
     @Published var presentedFlowFullScreenCover: FlowType?
     @Published var presentedAlert: AlertConfig = AlertConfig()
-    @Published var isCoverVisible: Bool = false
 
     private var cancellables: Set<AnyCancellable> = .init()
     weak var parentCoordinator: (any DPCoordinator)?
