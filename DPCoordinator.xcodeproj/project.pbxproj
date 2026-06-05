@@ -11,14 +11,9 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		C6A9B6EB2FD38622004F6008 /* DPCoordinator */ = {
+		C6C670892E39C97A00083A16 /* DPCoordinator */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = DPCoordinator;
-			sourceTree = "<group>";
-		};
-		C6C670892E39C97A00083A16 /* DPCoordinatorExample1 */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = DPCoordinatorExample1;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -37,8 +32,7 @@
 		C6C670572E37121700083A16 = {
 			isa = PBXGroup;
 			children = (
-				C6A9B6EB2FD38622004F6008 /* DPCoordinator */,
-				C6C670892E39C97A00083A16 /* DPCoordinatorExample1 */,
+				C6C670892E39C97A00083A16 /* DPCoordinator */,
 				C6C670612E37121700083A16 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,8 +61,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C6A9B6EB2FD38622004F6008 /* DPCoordinator */,
-				C6C670892E39C97A00083A16 /* DPCoordinatorExample1 */,
+				C6C670892E39C97A00083A16 /* DPCoordinator */,
 			);
 			name = DPCoordinator;
 			packageProductDependencies = (
