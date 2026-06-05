@@ -7,39 +7,22 @@
 
 import SwiftUI
 
-private struct IsInNavigationStackKey: EnvironmentKey {
-    static let defaultValue: Bool = false
-}
-
-extension EnvironmentValues {
-    var isInNavigationStack: Bool {
-        get { self[IsInNavigationStackKey.self] }
-        set { self[IsInNavigationStackKey.self] = newValue }
-    }
-}
+//extension EnvironmentValues {
+//    @Entry var isInNavigationStack: Bool = false
+//}
 
 struct CoordiantorNavigationStackModifier<C: DPCoordinator>: ViewModifier {
     @ObservedObject var coordinator: C
     var environmentKeyPath: WritableKeyPath<EnvironmentValues, C?>
     weak var parentCoordinator: (any DPCoordinator)?
-    @Environment(\.isInNavigationStack) private var isInNavigationStack
+//    @Environment(\.isInNavigationStack) private var isInNavigationStack
     
     func body(content: Content) -> some View {
 //        if isInNavigationStack {
-////            content
-////                .onAppear {
-////                    assertionFailure("You can not use nested NavigationStack. Use Sheet or FullScreenCover instead to created new NavigationStack or Flow. use: 'coordinator?.present(full:' or 'coordinator?.present(sheet:'")
-////                }
-//            
 //            content
 //                .task {
-////                    coordinator.parentCoordinator = parentCoordinator
-//                    if coordinator.navigationPath.count == 0 {
-//                        assertionFailure("You can not use nested NavigationStack. Use Sheet or FullScreenCover instead to created new NavigationStack or Flow. use: 'coordinator?.present(full:' or 'coordinator?.present(sheet:'")
-//                    }
-////                    coordinator.parentCoordinator.present(full: content)
+//                    assertionFailure("You can not use nested NavigationStack. Use Sheet or FullScreenCover instead to created new NavigationStack or Flow. use: 'coordinator?.present(full:' or 'coordinator?.present(sheet:'")
 //                }
-//                .environment(environmentKeyPath, coordinator)
 //        } else {
             NavigationStack(path: $coordinator.navigationPath) {
                 content
@@ -53,7 +36,7 @@ struct CoordiantorNavigationStackModifier<C: DPCoordinator>: ViewModifier {
                     .presentFullScreenCover(using: _coordinator)
                     .showAlert(using: _coordinator)
             }
-            .environment(\.isInNavigationStack, true)
+//            .environment(\.isInNavigationStack, true)
             .environment(environmentKeyPath, coordinator)
 //        }
       

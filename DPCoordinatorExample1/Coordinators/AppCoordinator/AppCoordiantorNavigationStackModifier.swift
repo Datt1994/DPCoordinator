@@ -10,7 +10,7 @@ struct AppCoordiantorNavigationStackModifier<C: AppCoordinator>: ViewModifier {
     @ObservedObject var coordinator: C
     var environmentKeyPath: WritableKeyPath<EnvironmentValues, C?>
     var parentCoordinator: (any AppCoordinator)?
-    @Environment(\.isInNavigationStack) private var isInNavigationStack
+//    @Environment(\.isInNavigationStack) private var isInNavigationStack
     
     func body(content: Content) -> some View {
 //        if isInNavigationStack {
