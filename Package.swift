@@ -10,6 +10,6 @@ let package = Package(name: "DPCoordinator",
                       products: [.library(name: "DPCoordinator",
                                           targets: ["DPCoordinator"])],
                       targets: [.target(name: "DPCoordinator",
-                                        path: "DPCoordinator/DPCoordinator/Source",
+                                        path: "DPCoordinator/Source",
                                         publicHeadersPath: "")],
                       swiftLanguageVersions: [.v5])
