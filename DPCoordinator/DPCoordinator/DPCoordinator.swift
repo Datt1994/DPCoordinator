@@ -47,7 +47,7 @@ public extension DPCoordinator {
 
 // MARK: - Base Coordinator
 
-@MainActor public class BaseCoordinator<T: Screen, F: Flow>: DPCoordinator {
+@MainActor open class BaseCoordinator<T: Screen, F: Flow>: DPCoordinator {
     public typealias ScreenType = T
     public typealias FlowType = F
 
