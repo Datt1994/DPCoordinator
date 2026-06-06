@@ -10,7 +10,7 @@ import Combine
 
 // MARK: - DPCoordinator Protocol
 
-@MainActor protocol DPCoordinator: ObservableObject {
+@MainActor public protocol DPCoordinator: ObservableObject {
     associatedtype ScreenType: Screen
     associatedtype FlowType: Flow
 
@@ -41,26 +41,26 @@ import Combine
 
 }
 
-extension DPCoordinator {
+public extension DPCoordinator {
     @discardableResult func pop() -> Bool { pop(1) }
 }
 
 // MARK: - Base Coordinator
 
-@MainActor class BaseCoordinator<T: Screen, F: Flow>: DPCoordinator {
-    typealias ScreenType = T
-    typealias FlowType = F
+@MainActor public class BaseCoordinator<T: Screen, F: Flow>: DPCoordinator {
+    public typealias ScreenType = T
+    public typealias FlowType = F
 
-    private(set) var dicPathScreen: [ScreenType.ID: ScreenType] = [:]
-    @Published var navigationPath: [ScreenType.ID] = []
-    @Published var presentedSheet: ScreenType?
-    @Published var presentedFullScreenCover: ScreenType?
-    @Published var presentedFlowSheet: FlowType?
-    @Published var presentedFlowFullScreenCover: FlowType?
-    @Published var presentedAlert: AlertConfig = AlertConfig()
+    private(set) public var dicPathScreen: [ScreenType.ID: ScreenType] = [:]
+    @Published public var navigationPath: [ScreenType.ID] = []
+    @Published public var presentedSheet: ScreenType?
+    @Published public var presentedFullScreenCover: ScreenType?
+    @Published public var presentedFlowSheet: FlowType?
+    @Published public var presentedFlowFullScreenCover: FlowType?
+    @Published public var presentedAlert: AlertConfig = AlertConfig()
 
     private var cancellables: Set<AnyCancellable> = .init()
-    weak var parentCoordinator: (any DPCoordinator)?
+    weak public var parentCoordinator: (any DPCoordinator)?
     
     init() {
         $navigationPath
@@ -78,7 +78,7 @@ extension DPCoordinator {
     }
 
     // Navigation
-    func push(_ screen: ScreenType) {
+    public func push(_ screen: ScreenType) {
         dicPathScreen[screen.id] = screen
         navigationPath.append(screen.id)
     }
@@ -87,30 +87,30 @@ extension DPCoordinator {
     // func push(flow: FlowType) { }
 
     @discardableResult
-    func pop(_ screenCount: Int = 1) -> Bool {
+    public func pop(_ screenCount: Int = 1) -> Bool {
         guard navigationPath.count >= screenCount else { return false }
         navigationPath.removeLast(screenCount)
         return true
     }
 
     @discardableResult
-    func popToRoot() -> Bool {
+    public func popToRoot() -> Bool {
         if navigationPath.isEmpty { return false }
         navigationPath.removeAll()
         return true
     }
 
     // Presentation
-    func present(sheet screen: ScreenType) {
+    public func present(sheet screen: ScreenType) {
         presentedSheet = screen
     }
     
-    func present(sheet flow: FlowType) {
+    public func present(sheet flow: FlowType) {
         presentedFlowSheet = flow
     }
 
     @discardableResult
-    func dismissSheetScreen() -> Bool {
+    public func dismissSheetScreen() -> Bool {
         if presentedSheet == nil {
             if presentedFlowSheet == nil {
                 return parentCoordinator?.dismissSheetScreen() ?? false
@@ -122,16 +122,16 @@ extension DPCoordinator {
         return true
     }
 
-    func present(full screen: ScreenType) {
+    public func present(full screen: ScreenType) {
         presentedFullScreenCover = screen
     }
     
-    func present(full flow: FlowType) {
+    public func present(full flow: FlowType) {
         presentedFlowFullScreenCover = flow
     }
 
     @discardableResult
-    func dismissFullScreen() -> Bool {
+    public func dismissFullScreen() -> Bool {
         if presentedFullScreenCover == nil {
             if presentedFlowFullScreenCover == nil {
                 return parentCoordinator?.dismissFullScreen() ?? false
@@ -144,7 +144,7 @@ extension DPCoordinator {
     }
 
     @discardableResult
-    func dismiss() -> Bool {
+    public func dismiss() -> Bool {
         if presentedSheet == nil && presentedFullScreenCover == nil {
             if presentedFlowSheet == nil && presentedFlowFullScreenCover == nil {
                 return parentCoordinator?.dismiss() ?? false
@@ -158,11 +158,11 @@ extension DPCoordinator {
         return true
     }
     
-    func showAlert(_ alert: AlertConfig) {
+    public func showAlert(_ alert: AlertConfig) {
         presentedAlert.show(alert)
     }
     
-    func dismissAlert() {
+    public func dismissAlert() {
         presentedAlert.dismiss()
     }
 }

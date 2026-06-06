@@ -7,7 +7,7 @@
 import SwiftUI
 
 // MARK: - Screen Protocol
-protocol Screen: Identifiable {
+public protocol Screen: Identifiable {
     associatedtype View: SwiftUI.View
     @ViewBuilder func build() -> View
     var id: UUID { get }

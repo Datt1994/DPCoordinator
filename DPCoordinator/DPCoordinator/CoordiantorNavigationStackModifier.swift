@@ -11,13 +11,13 @@ import SwiftUI
 //    @Entry var isInNavigationStack: Bool = false
 //}
 
-struct CoordiantorNavigationStackModifier<C: DPCoordinator>: ViewModifier {
+public struct CoordiantorNavigationStackModifier<C: DPCoordinator>: ViewModifier {
     @ObservedObject var coordinator: C
     var environmentKeyPath: WritableKeyPath<EnvironmentValues, C?>
     weak var parentCoordinator: (any DPCoordinator)?
 //    @Environment(\.isInNavigationStack) private var isInNavigationStack
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
 //        if isInNavigationStack {
 //            content
 //                .task {

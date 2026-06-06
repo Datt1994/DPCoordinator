@@ -7,7 +7,7 @@
 import SwiftUI
 
 // MARK: - Flow Protocol
-protocol Flow: Identifiable {
+public protocol Flow: Identifiable {
     associatedtype View: SwiftUI.View
     @ViewBuilder func build() -> View
     var id: UUID { get }
