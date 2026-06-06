@@ -62,7 +62,7 @@ public extension DPCoordinator {
     private var cancellables: Set<AnyCancellable> = .init()
     weak public var parentCoordinator: (any DPCoordinator)?
     
-    init() {
+    public init() {
         $navigationPath
             .sink { [weak self] navigationPaths in
                 self?.dicPathScreen.forEach { key, _ in
