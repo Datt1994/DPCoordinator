@@ -48,6 +48,11 @@ public struct CoordiantorNavigationStackModifier<C: DPCoordinator>: ViewModifier
 public struct AlertConfigButton {
     public let label: String
     public var action: (() -> Void)?
+    
+    public init(label: String, action: (() -> Void)? = nil) {
+        self.label = label
+        self.action = action
+    }
 }
 
 public struct AlertConfig {
