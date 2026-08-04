@@ -55,7 +55,7 @@ public struct AlertConfig {
     public var message: String?
     public var primaryButton: AlertConfigButton?
     public var secondaryButton: AlertConfigButton?
-    var isActive = false
+    public var isActive = false
 
     public mutating func show(_ alert: AlertConfig) {
         self = alert
