@@ -11,8 +11,8 @@ import SwiftUI
 
 public extension View {
     
-    func addCoordiantorNavigationStack<S: Screen, C: DPCoordinator>(using coordinator: C, environmentKeyPath: WritableKeyPath<EnvironmentValues, C?>, parentCoordinator: (any DPCoordinator)? = nil) -> some View where C.ScreenType == S, S: Identifiable {
-        modifier(CoordiantorNavigationStackModifier(coordinator: coordinator, environmentKeyPath: environmentKeyPath, parentCoordinator: parentCoordinator))
+    func addCoordinatorNavigationStack<S: Screen, C: DPCoordinator>(using coordinator: C, environmentKeyPath: WritableKeyPath<EnvironmentValues, C?>, parentCoordinator: (any DPCoordinator)? = nil) -> some View where C.ScreenType == S, S: Identifiable {
+        modifier(CoordinatorNavigationStackModifier(coordinator: coordinator, environmentKeyPath: environmentKeyPath, parentCoordinator: parentCoordinator))
     }
     
     @ViewBuilder
