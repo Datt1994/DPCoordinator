@@ -241,11 +241,33 @@ The `WelcomeView` can now use `@Environment(\.onboardingCoordinator)` to push on
 | Present a flow as a sheet | `present(sheet: AppFlow(.onboarding))` | Shows the flow’s root container in a sheet. |
 | Present one screen full screen | `present(full: AppScreen(.settings))` | Shows the screen with `fullScreenCover`. |
 | Present a flow full screen | `present(full: AppFlow(.onboarding))` | Shows the flow’s root container full screen. |
+| Show a system alert | `showAlert(AlertConfig(...))` | Shows a SwiftUI alert from the current coordinator. |
 | Dismiss a sheet | `dismissSheetScreen()` | Dismisses the local sheet/flow, otherwise asks the parent. |
 | Dismiss a full-screen cover | `dismissFullScreen()` | Dismisses the local full-screen cover/flow, otherwise asks the parent. |
 | Dismiss whatever is active | `dismiss()` | Dismisses local presentations, otherwise asks the parent. |
 
 `pop`, `popToRoot`, and the dismissal methods return `Bool`. Use that return value when a failed action matters, such as disabling a custom back button at the root.
+
+### Show a system alert
+
+The navigation-stack modifier automatically attaches the alert presenter. Create an `AlertConfig` with one or two buttons, then pass it to `showAlert` from a view that has access to the coordinator.
+
+```swift
+Button("Delete account") {
+    coordinator?.showAlert(
+        AlertConfig(
+            title: "Delete account?",
+            message: "This action cannot be undone.",
+            primaryButton: AlertConfigButton(label: "Delete") {
+                // Perform the destructive action.
+            },
+            secondaryButton: AlertConfigButton(label: "Cancel")
+        )
+    )
+}
+```
+
+Call `coordinator?.dismissAlert()` when you need to close an active alert in code. Tapping either configured SwiftUI button runs its action; SwiftUI also dismisses the alert.
 
 ### Cleanup callback
 
@@ -307,7 +329,6 @@ The example also defines `AppCoordinator`, `AppBaseCoordinator`, loading UI, and
 - Use `@StateObject` only at a coordinator’s owner (root container, tab container, or flow container). Descendant views should obtain it with `@Environment`.
 - Do not mutate `navigationPath` directly. Use `push`, `pop`, or `popToRoot` so the package can retain and clean up the matching screen builders.
 - `Screen.id` and `Flow.id` must be stable for the lifetime of their individual value and distinct for separately presented/pushed instances. A stored `UUID()` meets this requirement.
-- The package currently exposes `AlertConfig` and `showAlert`, but `AlertConfig`/`AlertConfigButton` do not have public initializers or public member access. An app consuming this through Swift Package Manager cannot construct an alert configuration yet. The example’s popup and loading overlays are separate app-target code; they do not make this package API available.
 - The package has no test target at present. Validate your route builders and presentation behavior in an app target when adding new flows.
 
 ## License
