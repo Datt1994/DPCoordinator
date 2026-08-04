@@ -7,14 +7,17 @@
 import SwiftUI
 
 // MARK: - AppFlow
-enum AppFlows { }
+enum AppFlows {
+    case tabbar
+    case accountSetUp
+}
 
 struct AppFlow: Flow {
     let id: UUID = UUID()
-    var flowContainer: AppFlows.FlowContainers?
+    var flowContainer: AppFlows?
     var onDissmiss: (() -> Void)?
 
-    init(flow: AppFlows.FlowContainers, onDissmiss: (() -> Void)? = nil) {
+    init(flow: AppFlows, onDissmiss: (() -> Void)? = nil) {
         self.flowContainer = flow
         self.onDissmiss = onDissmiss
     }
@@ -22,10 +25,14 @@ struct AppFlow: Flow {
 
     @ViewBuilder
     func build() -> some View {
-        if let flowContainer = flowContainer {
-            FlowBuilder.build(flowContainer)
+        switch flowContainer {
+        case .tabbar:
+            TabbarContainer()
+        case .accountSetUp:
+            SetUpAccountFlowContainer()
+        case .none:
+            EmptyView()
         }
-
     }
 
 }

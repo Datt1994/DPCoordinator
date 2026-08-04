@@ -20,7 +20,6 @@ struct HomeView: View {
                 tabCoordinator?.selectTab(.account)
             }
             Button("Show Loader") {
-//                coordinator?.showLoader(LoadingConfig(text: "text",description: "description"))
                 coordinator?.showLoader()
                 tabCoordinator?.setDisable(true)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5) {

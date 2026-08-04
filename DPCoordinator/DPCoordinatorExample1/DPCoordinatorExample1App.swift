@@ -11,7 +11,7 @@ import SwiftUI
 struct DPCoordinatorExample1App: App {
     var body: some Scene {
         WindowGroup {
-            FlowBuilder.build(.tabbar)
+            AppFlow(flow: .tabbar).build()
         }
     }
 }
