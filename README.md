@@ -55,9 +55,9 @@ There are four core pieces:
 | `Screen` | A typed destination and the SwiftUI view it builds. |
 | `Flow` | A typed feature container, normally used for a sheet or full-screen flow with its own coordinator. |
 | `BaseCoordinator<Screen, Flow>` | Holds the navigation path and current presentations, and exposes navigation/dismissal methods. |
-| `addCoordiantorNavigationStack` | Installs the `NavigationStack`, routes pushed screen IDs to views, handles sheets/full-screen covers, and places the coordinator in the SwiftUI environment. |
+| `addCoordinatorNavigationStack` | Installs the `NavigationStack`, routes pushed screen IDs to views, handles sheets/full-screen covers, and places the coordinator in the SwiftUI environment. |
 
-The spelling of the public modifier is `addCoordiantorNavigationStack` and the optional dismissal callback is `onDissmiss`. Those names are misspelled in the current public API, so use them exactly as written.
+The optional dismissal callback is named `onDissmiss` in the current public API. Use that spelling when conforming to `Screen` or `Flow`.
 
 ## Step-by-step setup
 
@@ -157,7 +157,7 @@ struct AppRootView: View {
 
     var body: some View {
         HomeView()
-            .addCoordiantorNavigationStack(
+            .addCoordinatorNavigationStack(
                 using: coordinator,
                 environmentKeyPath: \.appCoordinator
             )
@@ -218,7 +218,7 @@ struct OnboardingFlowContainer: View {
 
     var body: some View {
         WelcomeView()
-            .addCoordiantorNavigationStack(
+            .addCoordinatorNavigationStack(
                 using: coordinator,
                 environmentKeyPath: \.onboardingCoordinator,
                 parentCoordinator: parentCoordinator
@@ -315,7 +315,7 @@ The example also defines `AppCoordinator`, `AppBaseCoordinator`, loading UI, and
 
 ## Use cases
 
-- Independent navigation histories per tab: create one coordinator and one `addCoordiantorNavigationStack` per tab, as the example does.
+- Independent navigation histories per tab: create one coordinator and one `addCoordinatorNavigationStack` per tab, as the example does.
 - Multi-step forms or wizards: model each step as a `Screen`; use `push`, `pop`, and `popToRoot` for linear progress and reset.
 - Onboarding, authentication, checkout, or account setup: model the feature as a `Flow`, present it modally, and install a child coordinator inside its container.
 - Detail and drill-down navigation: carry the required identifier or value in the route enum, such as `case product(id: String)`.
@@ -325,7 +325,7 @@ The example also defines `AppCoordinator`, `AppBaseCoordinator`, loading UI, and
 
 ## Important constraints
 
-- Do not put a second `NavigationStack` inside a view that is already wrapped with `addCoordiantorNavigationStack`. A presented `Flow` is the intended boundary for a new stack.
+- Do not put a second `NavigationStack` inside a view that is already wrapped with `addCoordinatorNavigationStack`. A presented `Flow` is the intended boundary for a new stack.
 - Use `@StateObject` only at a coordinator’s owner (root container, tab container, or flow container). Descendant views should obtain it with `@Environment`.
 - Do not mutate `navigationPath` directly. Use `push`, `pop`, or `popToRoot` so the package can retain and clean up the matching screen builders.
 - `Screen.id` and `Flow.id` must be stable for the lifetime of their individual value and distinct for separately presented/pushed instances. A stored `UUID()` meets this requirement.
