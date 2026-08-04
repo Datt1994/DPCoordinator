@@ -57,6 +57,14 @@ public struct AlertConfig {
     public var secondaryButton: AlertConfigButton?
     public var isActive = false
 
+    public init(title: String? = nil, message: String? = nil, primaryButton: AlertConfigButton? = nil, secondaryButton: AlertConfigButton? = nil, isActive: Bool = false) {
+        self.title = title
+        self.message = message
+        self.primaryButton = primaryButton
+        self.secondaryButton = secondaryButton
+        self.isActive = isActive
+    }
+    
     public mutating func show(_ alert: AlertConfig) {
         self = alert
         self.isActive = true
