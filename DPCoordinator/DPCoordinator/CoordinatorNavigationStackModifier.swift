@@ -1,5 +1,5 @@
 //
-//  CoordiantorNavigationStackModifier.swift
+//  CoordinatorNavigationStackModifier.swift
 //  DPCoordinator
 //
 //  Created by Datt Patel on 27/07/25.
@@ -11,7 +11,7 @@ import SwiftUI
 //    @Entry var isInNavigationStack: Bool = false
 //}
 
-public struct CoordiantorNavigationStackModifier<C: DPCoordinator>: ViewModifier {
+public struct CoordinatorNavigationStackModifier<C: DPCoordinator>: ViewModifier {
     @ObservedObject var coordinator: C
     var environmentKeyPath: WritableKeyPath<EnvironmentValues, C?>
     weak var parentCoordinator: (any DPCoordinator)?
