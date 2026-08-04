@@ -46,23 +46,23 @@ public struct CoordiantorNavigationStackModifier<C: DPCoordinator>: ViewModifier
 
 
 public struct AlertConfigButton {
-    let label: String
-    var action: (() -> Void)?
+    public let label: String
+    public var action: (() -> Void)?
 }
 
 public struct AlertConfig {
-    var title: String?
-    var message: String?
-    var primaryButton: AlertConfigButton?
-    var secondaryButton: AlertConfigButton?
+    public var title: String?
+    public var message: String?
+    public var primaryButton: AlertConfigButton?
+    public var secondaryButton: AlertConfigButton?
     var isActive = false
 
-    mutating func show(_ alert: AlertConfig) {
+    public mutating func show(_ alert: AlertConfig) {
         self = alert
         self.isActive = true
     }
 
-    mutating func dismiss() {
+    public mutating func dismiss() {
         self.isActive = false
     }
 }
